@@ -33,6 +33,7 @@
   "scripts": {
     "_preinstall": "git submodule update --init --recursive && ./tools/build.sh",
     "install": "node-gyp rebuild",
+    "postinstall": "install_name_tool -change bazel-out/local_darwin-opt/bin/tensorflow/cc/libtensorflow.so lib/tensorflow/bazel-out/local_darwin-opt/bin/tensorflow/cc/libtensorflow.so build/Release/node-tensorflow.node",
     "test": "node test/suite.js"
   }
 }

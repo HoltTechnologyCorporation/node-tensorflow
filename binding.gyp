@@ -1,11 +1,24 @@
 {
-  'targets': [{ 
-    'target_name': 'node-tensorflow', 
-    'sources': ['gensrc/tensorflow_wrap.cxx'],
-    
-    'libraries' : [],
+    "variables": {
+    "tensorflow%": "../lib/tensorflow/bazel-out/local_darwin-opt/bin"
+  },
+  'targets': [{
+    'target_name': 'node-tensorflow',
+    'sources': [
+        'gensrc/tensorflow_wrap.cxx'
+    ],
 
-    'include_dirs' : [ 
+    "link_settings": {
+        "libraries": [
+          "<@(tensorflow)/tensorflow/cc/libtensorflow.so"
+        ],
+        "ldflags": [
+            "-L<@(tensorflow)/tensorflow/cc",
+            "-Wl,-rpath,<@(tensorflow)/tensorflow/cc",
+        ]
+      },
+
+    'include_dirs' : [
 
       # Third party must be included as root as well
       "lib/tensorflow/bazel-tensorflow",
@@ -50,7 +63,7 @@
       "-fno-exceptions"
     ],
     'cflags_cc!': [
-      "-fno-rtti", "-fno-exceptions" 
+      "-fno-rtti", "-fno-exceptions"
     ]
   }]
 }
